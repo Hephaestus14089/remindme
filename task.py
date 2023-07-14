@@ -54,6 +54,7 @@ class Task:
         if self.details:
             print(self.details)
 
+
     def validate_time(self):
         # format of remind_time :-
         # hrs[:]mins (24hr clock)
@@ -65,7 +66,6 @@ class Task:
         # days[d] (along with h and m: + current time)
 
         time_str = self.remind_time
-
 
         if time_str == "" or time_str == "0":
             raise ValueError("invalid time format")
@@ -89,10 +89,74 @@ class Task:
         #
         time_dict = {}
 
-        # loop through time_str_lst and create time_dict
-        for element in time_str_lst:
-            pass
+        def validate_time_str_attr(attr):
+            if attr.upper() in ['AM', 'PM']:
+                if 'twelve_hr' in time_dict:
+                    raise ValueError("invalid time format: repeating AM/PM specification")
+                time_dict['twelve_hr'] = attr.upper()
 
-        # validate time_dict
+            elif ':' in attr:
+                if 'clock' in time_dict:
+                    raise ValueError("invalid time format: repeating 'h:m' time specification")
+                clock_lst = attr.split(':')
+                if len(clock_lst) != 2:
+                    raise ValueError("invalid time format: bad 'h:m' time specification")
+                try:
+                    clock_lst[0] = int(clock_lst[0])
+                    clock_lst[1] = int(clock_lst[1])
+                except:
+                    raise ValueError("invalid time format: bad 'h:m' time specification")
+                if clock_lst[0] < 0 or clock_lst[1] < 0:
+                    raise ValueError("invalid time format: bad 'h:m' time specification")
+                elif clock_lst[0] > 23 or clock_lst[1] > 59:
+                    raise ValueError("invalid time format: bad 'h:m' time specification")
+                time_dict['clock'] = {
+                    'h': clock_lst[0],
+                    'm': clock_lst[1]
+                }
+
+            elif attr[len(attr) - 1:].upper() in ['D', 'H', 'M']:
+                n = attr[:len(attr) - 1]
+                d_h_m = attr[len(attr) - 1:]
+                try:
+                    n = int(n)
+                except:
+                    raise ValueError("invalid time format: bad D, H or M specification")
+                if d_h_m.lower() in time_dict:
+                    raise ValueError("invalid time format: repeating argument")
+                time_dict[d_h_m.lower()] = n
+
+            else: # only an integer will be treated as minutes
+                if 'm' in time_dict:
+                    raise ValueError("invalid time format: possible repeatative argument")
+                try:
+                    time_dict['m'] = int(attr)
+                except:
+                    raise ValueError("invalid time format")
+
+
+        print("time_str_lst: ", time_str_lst) # debug output
+
+        # loop through time_str_lst and create time_dict
+        for attr in time_str_lst:
+            validate_time_str_attr(attr)
+
+        # validate  time_dict
+        def validate_time_dict():
+            bad_cases  = []
+
+            if 'clock' in time_dict:
+                bad_cases.append('h' in time_dict or 'm' in time_dict)
+                bad_cases.append('twelve_hr' in time_dict and (time_dict['clock']['h'] > 12 or time_dict['clock']['h'] < 1))
+            else:
+                bad_cases.append('twelve_hr' in time_dict)
+
+            good = True
+            for bad_case in bad_cases:
+                good = good and not bad_case
+                if not good:
+                    raise ValueError("invalid time format: bad combination of arguments")
+
+        validate_time_dict()
 
         return time_dict
