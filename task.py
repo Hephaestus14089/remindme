@@ -4,6 +4,13 @@ class Task:
         self.remind_time = remind_time
         self.details = {}
 
+    def print(self):
+        print(f"title: {self.title}")
+        print(f"remind_time: {self.remind_time}")
+
+        if self.details:
+            print(self.details)
+
     def update_details_description(self, newVal):
         self.details['description'] = newVal
 
@@ -47,13 +54,6 @@ class Task:
         if newVal != "":
             self.remind_time = newVal
 
-    def print(self):
-        print(f"title: {self.title}")
-        print(f"remind_time: {self.remind_time}")
-
-        if self.details:
-            print(self.details)
-
 
     def validate_time(self):
         # format of remind_time :-
@@ -90,58 +90,78 @@ class Task:
         time_dict = {}
 
         def validate_time_str_attr(attr):
-            if attr.upper() in ['AM', 'PM']:
-                if 'twelve_hr' in time_dict:
-                    raise ValueError("invalid time format: repeating AM/PM specification")
-                time_dict['twelve_hr'] = attr.upper()
 
-            elif ':' in attr:
-                if 'clock' in time_dict:
-                    raise ValueError("invalid time format: repeating 'h:m' time specification")
-                clock_lst = attr.split(':')
-                if len(clock_lst) != 2:
-                    raise ValueError("invalid time format: bad 'h:m' time specification")
-                try:
-                    clock_lst[0] = int(clock_lst[0])
-                    clock_lst[1] = int(clock_lst[1])
-                except:
-                    raise ValueError("invalid time format: bad 'h:m' time specification")
-                if clock_lst[0] < 0 or clock_lst[1] < 0:
-                    raise ValueError("invalid time format: bad 'h:m' time specification")
-                elif clock_lst[0] > 23 or clock_lst[1] > 59:
-                    raise ValueError("invalid time format: bad 'h:m' time specification")
-                time_dict['clock'] = {
-                    'h': clock_lst[0],
-                    'm': clock_lst[1]
-                }
+            def check_if_twelve_hr():
+                if attr.upper() in ['AM', 'PM']:
+                    if 'twelve_hr' in time_dict:
+                        raise ValueError("invalid time format: repeating AM/PM specification")
 
-            elif attr[len(attr) - 1:].upper() in ['D', 'H', 'M']:
-                n = attr[:len(attr) - 1]
-                d_h_m = attr[len(attr) - 1:]
-                try:
-                    n = int(n)
-                except:
-                    raise ValueError("invalid time format: bad D, H or M specification")
-                if d_h_m.lower() in time_dict:
-                    raise ValueError("invalid time format: repeating argument")
-                time_dict[d_h_m.lower()] = n
+                    time_dict['twelve_hr'] = attr.upper()
+                    return True
 
-            else: # only an integer will be treated as minutes
+                return False
+
+            def check_if_clock():
+                if ':' in attr:
+                    if 'clock' in time_dict:
+                        raise ValueError("invalid time format: repeating 'h:m' time specification")
+
+                    clock_lst = attr.split(':')
+
+                    if len(clock_lst) != 2:
+                        raise ValueError("invalid time format: bad 'h:m' time specification")
+
+                    try:
+                        clock_lst[0] = int(clock_lst[0])
+                        clock_lst[1] = int(clock_lst[1])
+                    except:
+                        raise ValueError("invalid time format: bad 'h:m' time specification")
+
+                    if clock_lst[0] < 0 or clock_lst[1] < 0:
+                        raise ValueError("invalid time format: bad 'h:m' time specification")
+                    elif clock_lst[0] > 23 or clock_lst[1] > 59:
+                        raise ValueError("invalid time format: bad 'h:m' time specification")
+
+                    time_dict['clock'] = { 'h': clock_lst[0], 'm': clock_lst[1] }
+                    return True
+
+                return False
+
+            def check_if_dhm():
+                d_h_m = attr[len(attr) - 1:].lower()
+
+                if d_h_m in ['d', 'h', 'm']:
+                    n = attr[:len(attr) - 1]
+
+                    try:
+                        n = int(n)
+                    except:
+                        raise ValueError("invalid time format: bad D, H or M specification")
+
+                    if d_h_m in time_dict:
+                        raise ValueError("invalid time format: repeating argument")
+
+                    time_dict[d_h_m] = n
+                    return True
+
+                return False
+
+            def check_if_single_integer():
+                # a single integer will be treated as minutes
                 if 'm' in time_dict:
                     raise ValueError("invalid time format: possible repeatative argument")
+
                 try:
                     time_dict['m'] = int(attr)
+                    return True
                 except:
                     raise ValueError("invalid time format")
 
+                return False
 
-        print("time_str_lst: ", time_str_lst) # debug output
+            # the order for checking the attributes in the time string
+            check_if_twelve_hr() or check_if_clock() or check_if_dhm() or check_if_single_integer()
 
-        # loop through time_str_lst and create time_dict
-        for attr in time_str_lst:
-            validate_time_str_attr(attr)
-
-        # validate  time_dict
         def validate_time_dict():
             bad_cases  = []
 
@@ -157,6 +177,13 @@ class Task:
                 if not good:
                     raise ValueError("invalid time format: bad combination of arguments")
 
+        print("time_str_lst: ", time_str_lst) # debug output
+
+        # loop through time_str_lst and create time_dict
+        for attr in time_str_lst:
+            validate_time_str_attr(attr)
+
+        # validate  time_dict
         validate_time_dict()
 
         return time_dict
