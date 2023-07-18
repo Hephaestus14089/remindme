@@ -193,12 +193,12 @@ class Task:
     def convert_time_dict(self, time_dict):
         # the final time_dict must contain
         # only the following attributes :-
-        # 'date': yy-mm-dd
+        # 'date': y-m-d
         # 'time': h:m
         # the final time_dict will replace remind_time
 
-        now = str(datetime.now().time()).split(':')[:2]
-        today = str(datetime.now().date()).split('-')
+        now = list(map(lambda x: int(x), str(datetime.now().time()).split(':')[:2]))
+        today = list(map(lambda x: int(x), str(datetime.now().date()).split('-')))
 
         def create_clock():
             pass
@@ -213,9 +213,33 @@ class Task:
                     time_dict['clock']['h'] += 12
 
         def check_datetime_validity():
-            # check date validity
-            # check time valiity
-            pass
+            # confirm that the date/time is in the future
+            def check_date():
+                y, m, d = list(map(lambda x: int(x), time_dict['date'].split('-')))
+                if (today[0] > y):
+                    return False
+                elif (today[0] == y): # this year
+                    if (today[1] > m):
+                        return False
+                    elif (today[1] == m): # this month
+                        if (today[2] > d):
+                            return False
+                return True
+
+            def check_time():
+                h, m = list(map(lambda x: int(x), time_dict['time'].split(':')))
+                if h < now[0]:
+                    return False
+                elif h == now[0]:
+                    if m <= now[1] + 2:
+                        return False
+                return True
+
+            if not check_date():
+                return False
+            if time_dict['date'] == '-'.join(list(map(lambda x: str(x), today))):
+                return check_time()
+            return True
 
         if 'twelve_hr' in time_dict:
             convert_clock() # convert clock to 24hr format
@@ -225,9 +249,8 @@ class Task:
 
         # create 'date' attribute
         date = today
-        if 'd' in time_dict:
-            date[2] = str(int(date[2]) + time_dict['d'])
-        time_dict['date'] = '-'.join(date)
+        date[2] += time_dict['d'] if 'd' in time_dict else 0
+        time_dict['date'] = '-'.join(list(map(lambda x: str(x), date)))
 
         # remove unnecessary data
         time_dict = {
@@ -235,13 +258,14 @@ class Task:
             'date': time_dict['date']
         }
 
-        # if not check_datetime_validity():
-        #     raise ValueError("date/time invalid")
+        # final date/time validity check
+        if not check_datetime_validity():
+            raise ValueError("date/time invalid")
 
         return time_dict
 
 
 if __name__ == "__main__":
-    t = Task("10:58 PM")
+    t = Task("01:5")
     time_dict = t.validate_time()
     print(t.convert_time_dict(time_dict))
