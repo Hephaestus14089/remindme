@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class Task:
     def __init__(self, remind_time, title="no title"):
         self.title = title
@@ -79,13 +81,13 @@ class Task:
         #
         # clock: 'h:m' format (if twelve_hr attr is not present, assume 24 hr)
         # twelve_hr: AM/PM (must have clock attr)
-        # days: n days
+        # d: n days
         #
         # or
         #
-        # days: n days
-        # hrs: n hrs
-        # mins: n mins
+        # d: n days
+        # h: n hrs
+        # m: n mins
         #
         time_dict = {}
 
@@ -187,3 +189,59 @@ class Task:
         validate_time_dict()
 
         return time_dict
+
+    def convert_time_dict(self, time_dict):
+        # the final time_dict must contain
+        # only the following attributes :-
+        # 'date': yy-mm-dd
+        # 'time': h:m
+        # the final time_dict will replace remind_time
+
+        now = str(datetime.now().time()).split(':')[:2]
+        today = str(datetime.now().date()).split('-')
+
+        def create_clock():
+            pass
+
+        # converts clock from 12hr to 24hr format
+        def convert_clock():
+            if time_dict['twelve_hr'] == 'AM':
+                if time_dict['clock']['h'] == 12:
+                    time_dict['clock']['h'] = 0
+            else:
+                if time_dict['clock']['h'] != 12:
+                    time_dict['clock']['h'] += 12
+
+        def check_datetime_validity():
+            # check date validity
+            # check time valiity
+            pass
+
+        if 'twelve_hr' in time_dict:
+            convert_clock() # convert clock to 24hr format
+
+        # create 'time' attribute
+        time_dict['time'] = str(time_dict['clock']['h']) + ':' + str(time_dict['clock']['m'])
+
+        # create 'date' attribute
+        date = today
+        if 'd' in time_dict:
+            date[2] = str(int(date[2]) + time_dict['d'])
+        time_dict['date'] = '-'.join(date)
+
+        # remove unnecessary data
+        time_dict = {
+            'time': time_dict['time'],
+            'date': time_dict['date']
+        }
+
+        # if not check_datetime_validity():
+        #     raise ValueError("date/time invalid")
+
+        return time_dict
+
+
+if __name__ == "__main__":
+    t = Task("10:58 PM")
+    time_dict = t.validate_time()
+    print(t.convert_time_dict(time_dict))
