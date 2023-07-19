@@ -197,11 +197,21 @@ class Task:
         # 'time': h:m
         # the final time_dict will replace remind_time
 
+        time_gap_minutes = 3 # minimum gap needed for the remind_time of the next Task object (in mins)
+
         now = list(map(lambda x: int(x), str(datetime.now().time()).split(':')[:2]))
         today = list(map(lambda x: int(x), str(datetime.now().date()).split('-')))
 
         def create_clock():
-            pass
+            time_dict['clock'] = { 'h': now[0], 'm': now[1] + time_gap_minutes }
+            if 'h' in time_dict:
+                time_dict['clock']['h'] += time_dict['h']
+                time_dict['d'] = (time_dict['d'] if 'd' in time_dict else 0) + (time_dict['clock']['h'] // 24)
+                time_dict['clock']['h'] %= 24
+            if 'm' in time_dict:
+                time_dict['clock']['m'] += time_dict['m']
+                time_dict['clock']['h'] += time_dict['clock']['m'] // 59
+                time_dict['clock']['m'] %= 59
 
         # converts clock from 12hr to 24hr format
         def convert_clock():
@@ -212,31 +222,19 @@ class Task:
                 if time_dict['clock']['h'] != 12:
                     time_dict['clock']['h'] += 12
 
-        def check_datetime_validity():
-            # confirm that the date/time is in the future
-            def check_date():
-                y, m, d = list(map(lambda x: int(x), time_dict['date'].split('-')))
-                if (today[0] > y):
-                    return False
-                elif (today[0] == y): # this year
-                    if (today[1] > m):
-                        return False
-                    elif (today[1] == m): # this month
-                        if (today[2] > d):
-                            return False
-                return True
 
+
+        def check_datetime_validity():
+            # confirm that the time is in the future
             def check_time():
                 h, m = list(map(lambda x: int(x), time_dict['time'].split(':')))
                 if h < now[0]:
                     return False
                 elif h == now[0]:
-                    if m <= now[1] + 2:
+                    if m < now[1] + time_gap_minutes:
                         return False
                 return True
 
-            if not check_date():
-                return False
             if time_dict['date'] == '-'.join(list(map(lambda x: str(x), today))):
                 return check_time()
             return True
@@ -244,12 +242,16 @@ class Task:
         if 'twelve_hr' in time_dict:
             convert_clock() # convert clock to 24hr format
 
+        if 'clock' not in time_dict:
+            create_clock()
+
         # create 'time' attribute
         time_dict['time'] = str(time_dict['clock']['h']) + ':' + str(time_dict['clock']['m'])
 
         # create 'date' attribute
-        date = today
+        date = today.copy()
         date[2] += time_dict['d'] if 'd' in time_dict else 0
+        # format_date(date)
         time_dict['date'] = '-'.join(list(map(lambda x: str(x), date)))
 
         # remove unnecessary data
@@ -257,6 +259,8 @@ class Task:
             'time': time_dict['time'],
             'date': time_dict['date']
         }
+
+        # print(time_dict)
 
         # final date/time validity check
         if not check_datetime_validity():
@@ -266,6 +270,7 @@ class Task:
 
 
 if __name__ == "__main__":
-    t = Task("01:5")
+    # t = Task("1d 9:40 pm")
+    t = Task("30h")
     time_dict = t.validate_time()
     print(t.convert_time_dict(time_dict))
