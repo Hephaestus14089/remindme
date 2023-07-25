@@ -43,6 +43,34 @@ class Task:
     def update_title(self, newVal):
         self.title = newVal if newVal != "" else "no title"
 
+    def compare_remind_time(self, task_other):
+        # compares remind_time of two Task objects
+        # returns integer value :-
+        # positive if remind_time is further than the other object
+        # negative if remind_time is nearer than the other object
+        # 0 if equal
+        remind_time_this = self.remind_time
+        remind_time_that = task_other.remind_time
+
+        def compare_date():
+            date_this = list(map(lambda x: int(x), remind_time_this['date'].split('-')))
+            date_that = list(map(lambda x: int(x), remind_time_that['date'].split('-')))
+            y_diff, m_diff, d_diff = [date_this[i] - date_that[i] for i in range(3)]
+            if y_diff != 0:
+                return y_diff
+            if m_diff != 0:
+                return m_diff
+            return d_diff
+
+        def compare_time():
+            time_this = list(map(lambda x: int(x), remind_time_this['time'].split(':')))
+            time_that = list(map(lambda x: int(x), remind_time_that['time'].split(':')))
+            h_diff, m_diff = [time_this[i] - time_that[i] for i in range(2)]
+            return h_diff if h_diff != 0 else m_diff
+
+        date_diff = compare_date()
+        return date_diff if date_diff != 0 else compare_time()
+
     def update_remind_time(self, newVal):
         # this is just for testing
         # according to the current plan,
@@ -60,5 +88,6 @@ class Task:
 
 if __name__ == "__main__":
     # t = Task("1d 9:40 pm")
-    t = Task("1h 2m")
-    t.print()
+    t1 = Task("1h 2m")
+    t2 = Task("1h 5m")
+    print(t1.compare_remind_time(t2))
