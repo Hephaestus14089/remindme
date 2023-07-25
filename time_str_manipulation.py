@@ -185,7 +185,7 @@ class TimeDict:
             if h < now[0]:
                 return False
             elif h == now[0]:
-                if m < now[1] + time_gap_minutes:
+                if m < now[1] + TimeDict.time_gap_minutes:
                     return False
             return True
 
