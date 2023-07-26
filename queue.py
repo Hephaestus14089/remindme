@@ -8,12 +8,18 @@ class Queue:
         self.length = 0
 
     def print(self):
-        # check if empty list
-        # loop through the queue list
-        # print title and remind_time of each Task object
-        # along withh their index in the queue
-        for task in self.queue:
-            task.print()
+        if self.length == 0:
+            return "Queue empty!\nNo tasks queued."
+
+        print_str = ""
+        for i in range(self.length):
+            task = self.queue[i]
+            print_str += f"Index: {i}\n"
+            print_str += f"Remind time: {task.remind_time}\n"
+            print_str += f"Title: {task.title}\n"
+            print_str += "\n"
+
+        return print_str
 
     def insert(self, task):
         if self.length != 0:
@@ -47,21 +53,13 @@ if __name__ == '__main__':
     q = Queue()
 
     q.insert(Task("23:30", "T 1"))
-    q.print()
-    print()
     q.insert(Task("23:32", "T 2"))
-    q.print()
-    print()
     q.insert(Task("23:50", "T 3"))
-    q.print()
-    print()
     q.insert(Task("23:40", "T 4"))
-    q.print()
-    print()
 
-    q.remove(2).print()
-    print()
-    q.print()
-    print()
+    print(q.print())
 
-    print(Queue().remove(0))
+    q.remove(2)
+
+    print(q.print())
+
