@@ -16,17 +16,16 @@ class Queue:
             task.print()
 
     def insert(self, task):
-        # check if queue is empty
-        # in case of empty queue :-
-        # just append the item to the queue list
-        # if not empty :-
-        # loop through the queue list and
-        # compare the remind time
-        # of each item in the list
-        # with the new Task object
-        # put the object at the appropriate position
-        # increment length
+        if self.length != 0:
+            for i in range(self.length):
+                if task.compare_remind_time(self.queue[i]) < 0:
+                    self.queue.insert(i, task)
+                    self.length += 1
+                    return
+        # if queue empty or cannot be inserted in the middle
+        # just insert it at the end
         self.queue.append(task)
+        self.length += 1
 
     def remove(self, index):
         # check if index >= queue length
@@ -44,9 +43,14 @@ class Queue:
 if __name__ == '__main__':
     q = Queue()
 
-    q.insert(Task("1:00", "T 1"))
-    q.insert(Task("1:00", "T 2"))
-    q.insert(Task("5:00", "T 3"))
-    q.insert(Task("11:00", "T 4"))
-
+    q.insert(Task("23:05", "T 1"))
+    q.print()
+    print()
+    q.insert(Task("23:00", "T 2"))
+    q.print()
+    print()
+    q.insert(Task("23:50", "T 3"))
+    q.print()
+    print()
+    q.insert(Task("23:40", "T 4"))
     q.print()
