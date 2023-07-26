@@ -28,11 +28,14 @@ class Queue:
         self.length += 1
 
     def remove(self, index):
-        # check if index >= queue length
-        # find list item if entered index
-        # remove list item
-        # decrement length
-        pass
+        if index >= self.length:
+            return None
+        for i in range(self.length):
+            if i == index:
+                taskObj = self.queue[i]
+                del self.queue[i]
+                self.length -= 1
+        return taskObj
 
     def dequeue(self):
         # remove and return the front-most item
@@ -43,10 +46,10 @@ class Queue:
 if __name__ == '__main__':
     q = Queue()
 
-    q.insert(Task("23:05", "T 1"))
+    q.insert(Task("23:30", "T 1"))
     q.print()
     print()
-    q.insert(Task("23:00", "T 2"))
+    q.insert(Task("23:32", "T 2"))
     q.print()
     print()
     q.insert(Task("23:50", "T 3"))
@@ -54,3 +57,11 @@ if __name__ == '__main__':
     print()
     q.insert(Task("23:40", "T 4"))
     q.print()
+    print()
+
+    q.remove(2).print()
+    print()
+    q.print()
+    print()
+
+    print(Queue().remove(0))
