@@ -49,6 +49,11 @@ class Queue:
     def dequeue(self):
         return self.remove(0)
 
+    def peek(self):
+        if self.isEmpty():
+            return None
+        return self.queue[0]
+
 if __name__ == '__main__':
     q = Queue()
 
