@@ -7,6 +7,9 @@ class Queue:
         self.queue = []
         self.length = 0
 
+    def isEmpty(self):
+        return self.length == 0
+
     def print(self):
         if self.length == 0:
             return "Queue empty!\nNo tasks queued."
