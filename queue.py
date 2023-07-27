@@ -44,22 +44,20 @@ class Queue:
         return taskObj
 
     def dequeue(self):
-        # remove and return the front-most item
-        # (item is a Task object)
-        # decrement length
-        pass
+        return self.remove(0)
 
 if __name__ == '__main__':
     q = Queue()
 
-    q.insert(Task("23:30", "T 1"))
-    q.insert(Task("23:32", "T 2"))
-    q.insert(Task("23:50", "T 3"))
-    q.insert(Task("23:40", "T 4"))
+    q.insert(Task("12:30", "T 1"))
+    q.insert(Task("12:32", "T 2"))
+    q.insert(Task("12:50", "T 3"))
+    q.insert(Task("12:40", "T 4"))
 
     print(q.print())
 
     q.remove(2)
+    q.dequeue()
 
     print(q.print())
 
