@@ -1,6 +1,6 @@
 from datetime import datetime
 import time
-from queue import Queue
+from task_queue import Queue
 from task import Task
 # import dispatcher
 
