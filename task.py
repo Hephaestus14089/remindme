@@ -22,34 +22,40 @@ class Task:
         if self.details:
             print(self.details)
 
-    def update_details_description(self, newVal):
-        self.details['description'] = newVal
+    def update_details_description(self, new_val):
+        if new_val == "":
+            try:
+                del self.details['description']
+            except:
+                return
+        else:
+            self.details['description'] = new_val
 
-    def update_details_start_time(self, newVal):
-        if newVal == "":
+    def update_details_start_time(self, new_val):
+        if new_val == "":
             try:
                 del self.details['start_time']
             except:
                 return
         else:
-            self.details['start_time'] = newVal
+            self.details['start_time'] = new_val
 
-    def update_details_end_time(self, newVal):
-        if newVal == "":
+    def update_details_end_time(self, new_val):
+        if new_val == "":
             try:
                 del self.details['end_time']
             except:
                 return
         else:
-            self.details['end_time'] = newVal
+            self.details['end_time'] = new_val
 
     def update_details_time(self, timeTuple):
         st, et = timeTuple
         self.update_details_start_time(st)
         self.update_details_end_time(et)
 
-    def update_title(self, newVal):
-        self.title = newVal if newVal != "" else "no title"
+    def update_title(self, new_val):
+        self.title = new_val if new_val != "" else "no title"
 
     def compare_remind_time(self, task_other):
         # compares remind_time of two Task objects
