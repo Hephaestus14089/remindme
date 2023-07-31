@@ -19,22 +19,9 @@ class Dispatcher:
         )
 
     def dispatch_reminder(self, task_obj):
-        reminder_str = task_obj.title
+        self.dispatch_message(task_obj.export_task_str(True))
 
-        if 'description' in task_obj.details:
-            print(task_obj.details)
-            reminder_str += "\n\n" + task_obj.details['description']
-
-        if 'start_time' in task_obj.details or 'end_time' in task_obj.details:
-            reminder_str += "\n\nEvent timings :-"
-            if 'start_time' in task_obj.details:
-                reminder_str += "\nstart: " + task_obj.details['start_time']
-            if 'end_time' in task_obj.details:
-                reminder_str += "\nend: " + task_obj.details['end_time']
-
-        self.dispatch_message(reminder_str)
-
-    def dispatch_schedule(self, schedule_tup):
+    def dispatch_schedule(self, schedule_tup, index_needed = True, details_needed = False):
         schedule_str = ""
 
         if len(schedule_tup) == 0:
@@ -42,9 +29,9 @@ class Dispatcher:
         else:
             for i in range(len(schedule_tup)):
                 task = schedule_tup[i]
-                schedule_str += f"Index: {i}\n"
-                schedule_str += f"Remind time: {task.remind_time}\n"
-                schedule_str += f"Title: {task.title}\n"
+                if index_needed:
+                    schedule_str += f"Index: {i}\n"
+                schedule_str += task.export_task_str(details_needed)
                 schedule_str += "\n"
 
         self.dispatch_message(schedule_str)
