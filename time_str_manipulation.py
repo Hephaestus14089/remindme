@@ -202,7 +202,7 @@ class TimeDict:
         # the final time_dict will replace remind_time
 
         if 'twelve_hr' in time_dict:
-            convert_clock(time_dict) # convert clock to 24hr format
+            TimeDict.convert_clock(time_dict) # convert clock to 24hr format
 
         if 'clock' not in time_dict:
             TimeDict.create_clock(time_dict)
