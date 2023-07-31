@@ -2,6 +2,14 @@ from datetime import datetime
 from time_str_manipulation import TimeStr, TimeDict
 
 class Task:
+    # anatomy of a Task object :-
+    # remind_time = { time, date }
+    # title = ""
+    #`details = {
+    #   description: ""
+    #   start_time: ""
+    #   end_time: ""
+    # }`
     def __init__(self, remind_time_str, title="no title"):
         self.remind_time = TimeDict.convert_time_dict(TimeStr.validate_time_str(remind_time_str))
         self.title = title
