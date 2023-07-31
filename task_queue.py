@@ -47,11 +47,13 @@ class TaskQueue:
 if __name__ == '__main__':
     q = TaskQueue()
 
-    q.insert(Task("9:30 PM", "T 1"))
-    q.insert(Task("9:32 PM", "T 2"))
-    q.insert(Task("9:50 PM", "T 3"))
-    q.insert(Task("9:40 PM", "T 4"))
+    q.insert(Task("9:59 PM", "T 1"))
+    q.insert(Task("9:57 PM", "T 2"))
+    q.insert(Task("9:51 PM", "T 3"))
+    q.insert(Task("9:54 PM", "T 4"))
 
-    print(q.export_schedule_tuple())
-
-    Dispatcher().dispatch_schedule(q.export_schedule_tuple())
+    task = q.dequeue()
+    task.update_details_description("test description")
+    task.update_details_end_time("3 PM")
+    task.update_details_start_time("11 AM")
+    Dispatcher().dispatch_reminder(task)

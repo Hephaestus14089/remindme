@@ -19,10 +19,20 @@ class Dispatcher:
         )
 
     def dispatch_reminder(self, task_obj):
-        # accept a Task object
-        # create the reminder message
-        # dispatch the message
-        pass
+        reminder_str = task_obj.title
+
+        if 'description' in task_obj.details:
+            print(task_obj.details)
+            reminder_str += "\n\n" + task_obj.details['description']
+
+        if 'start_time' in task_obj.details or 'end_time' in task_obj.details:
+            reminder_str += "\n\nEvent timings :-"
+            if 'start_time' in task_obj.details:
+                reminder_str += "\nstart: " + task_obj.details['start_time']
+            if 'end_time' in task_obj.details:
+                reminder_str += "\nend: " + task_obj.details['end_time']
+
+        self.dispatch_message(reminder_str)
 
     def dispatch_schedule(self, schedule_tup):
         schedule_str = ""
