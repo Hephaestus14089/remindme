@@ -79,20 +79,24 @@ class Task:
         date_diff = compare_date()
         return date_diff if date_diff != 0 else compare_time()
 
-    def update_remind_time(self, newVal):
-        # this is just for testing
-        # according to the current plan,
-        # updating remind_time would require expensive
-        # queue operations too, like a re-insertion
-        # might be, creating and inserting a new Task object
-        # and deleting the current one
-        #
-        # checking the value should not require checking here
-        # as it would be checked and converted to a 'time' type
-        # before it is passed to this function
-        if newVal != "":
-            self.remind_time = newVal
+    def get_details_str(self):
+        details_str = ""
+        if 'description' in self.details:
+            details_str += self.details['description']
+        if 'start_time' in self.details or 'end_time' in self.details:
+            reminder_str += "\n\nEvent timings :-"
+            if 'start_time' in self.details:
+                reminder_str += "\nstart: " + task_obj.details['start_time']
+            if 'end_time' in self.details:
+                reminder_str += "\nend: " + task_obj.details['end_time']
+        return details_str
 
+    def export_task_str(self, details_needed):
+        task_str = f"Remind time: {self.remind_time}\n"
+        task_str += f"Title: {self.title}\n"
+        if details_needed:
+            task_str += "\n" + self.get_details_str()
+        return task_str
 
 if __name__ == "__main__":
     # t = Task("1d 9:40 pm")
