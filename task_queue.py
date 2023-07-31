@@ -1,4 +1,5 @@
 from task import Task
+# from dispatcher import Dispatcher
 
 class TaskQueue:
     # every TaskQueue operation (except print) must
@@ -10,19 +11,8 @@ class TaskQueue:
     def isEmpty(self):
         return self.length == 0
 
-    def print(self):
-        if self.length == 0:
-            return "TaskQueue empty!\nNo tasks queued."
-
-        print_str = ""
-        for i in range(self.length):
-            task = self.queue[i]
-            print_str += f"Index: {i}\n"
-            print_str += f"Remind time: {task.remind_time}\n"
-            print_str += f"Title: {task.title}\n"
-            print_str += "\n"
-
-        return print_str
+    def export_schedule_tuple(self):
+        return tuple(self.queue)
 
     def insert(self, task):
         if self.length != 0:
@@ -57,15 +47,11 @@ class TaskQueue:
 if __name__ == '__main__':
     q = TaskQueue()
 
-    q.insert(Task("12:30", "T 1"))
-    q.insert(Task("12:32", "T 2"))
-    q.insert(Task("12:50", "T 3"))
-    q.insert(Task("12:40", "T 4"))
+    q.insert(Task("9:30 PM", "T 1"))
+    q.insert(Task("9:32 PM", "T 2"))
+    q.insert(Task("9:50 PM", "T 3"))
+    q.insert(Task("9:40 PM", "T 4"))
 
-    print(q.print())
+    print(q.export_schedule_tuple())
 
-    q.remove(2)
-    q.dequeue()
-
-    print(q.print())
-
+    # Dispatcher().dispatch_schedule(q.export_schedule_tuple())
