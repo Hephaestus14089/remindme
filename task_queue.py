@@ -1,7 +1,7 @@
 from task import Task
 
-class Queue:
-    # every Queue operation (except print) must
+class TaskQueue:
+    # every TaskQueue operation (except print) must
     # return a message upon successful execution
     def __init__(self):
         self.queue = []
@@ -12,7 +12,7 @@ class Queue:
 
     def print(self):
         if self.length == 0:
-            return "Queue empty!\nNo tasks queued."
+            return "TaskQueue empty!\nNo tasks queued."
 
         print_str = ""
         for i in range(self.length):
@@ -55,7 +55,7 @@ class Queue:
         return self.queue[0]
 
 if __name__ == '__main__':
-    q = Queue()
+    q = TaskQueue()
 
     q.insert(Task("12:30", "T 1"))
     q.insert(Task("12:32", "T 2"))

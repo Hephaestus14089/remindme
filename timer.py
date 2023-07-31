@@ -1,6 +1,6 @@
 from datetime import datetime
 import time
-from task_queue import Queue
+from task_queue import TaskQueue
 from task import Task
 # import dispatcher
 
@@ -34,7 +34,7 @@ class Timer:
 
 if __name__ == "__main__":
     timer = Timer()
-    q = Queue()
+    q = TaskQueue()
 
     q.insert(Task("12:3", "T 1"))
     q.insert(Task("00:46", "T 2"))
