@@ -24,11 +24,20 @@ class Dispatcher:
         # dispatch the message
         pass
 
-    def dispatch_schedule(self, task_queue):
-        # accept a TaskQueue tuple
-        # create schedule message
-        # dispatch the message
-        pass
+    def dispatch_schedule(self, schedule_tup):
+        schedule_str = ""
+
+        if len(schedule_tup) == 0:
+            schedule_str = "TaskQueue empty!"
+        else:
+            for i in range(len(schedule_tup)):
+                task = schedule_tup[i]
+                schedule_str += f"Index: {i}\n"
+                schedule_str += f"Remind time: {task.remind_time}\n"
+                schedule_str += f"Title: {task.title}\n"
+                schedule_str += "\n"
+
+        self.dispatch_message(schedule_str)
 
 if __name__ == "__main__":
     Dispatcher().dispatch_message("Test Dispatcher class.")

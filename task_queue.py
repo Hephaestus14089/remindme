@@ -1,5 +1,5 @@
 from task import Task
-# from dispatcher import Dispatcher
+from dispatcher import Dispatcher
 
 class TaskQueue:
     # every TaskQueue operation (except print) must
@@ -54,4 +54,4 @@ if __name__ == '__main__':
 
     print(q.export_schedule_tuple())
 
-    # Dispatcher().dispatch_schedule(q.export_schedule_tuple())
+    Dispatcher().dispatch_schedule(q.export_schedule_tuple())
