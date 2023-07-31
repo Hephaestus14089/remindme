@@ -85,27 +85,30 @@ class Task:
         date_diff = compare_date()
         return date_diff if date_diff != 0 else compare_time()
 
-    def get_details_str(self):
+    def export_details_str(self):
         details_str = ""
         if 'description' in self.details:
             details_str += self.details['description']
         if 'start_time' in self.details or 'end_time' in self.details:
-            reminder_str += "\n\nEvent timings :-"
+            details_str += "\n\nEvent timings :-"
             if 'start_time' in self.details:
-                reminder_str += "\nstart: " + task_obj.details['start_time']
+                details_str += "\nstart: " + self.details['start_time']
             if 'end_time' in self.details:
-                reminder_str += "\nend: " + task_obj.details['end_time']
+                details_str += "\nend: " + self.details['end_time']
         return details_str
 
     def export_task_str(self, details_needed):
         task_str = f"Remind time: {self.remind_time}\n"
         task_str += f"Title: {self.title}\n"
         if details_needed:
-            task_str += "\n" + self.get_details_str()
+            details_str = self.export_details_str()
+            if details_str != "":
+                task_str += "\n" + details_str
         return task_str
 
 if __name__ == "__main__":
-    # t = Task("1d 9:40 pm")
     t1 = Task("1h 2m")
-    t2 = Task("1h 5m")
-    print(t1.compare_remind_time(t2))
+    t1.update_details_description("Description of a Task object, for testing.")
+    t1.update_details_time(("5:00pm", "9:00pm"))
+    t1.update_title("Test Task")
+    print(t1.export_task_str(True))
