@@ -19,7 +19,11 @@ class Dispatcher:
         )
 
     def dispatch_reminder(self, task_obj):
-        self.dispatch_message(task_obj.export_task_str(True))
+        reminder_str = task_obj.title
+        reminder_details_str = task_obj.export_details_str()
+        if reminder_details_str != "":
+            reminder_str += "\n\n" + reminder_details_str
+        self.dispatch_message(reminder_str)
 
     def dispatch_schedule(self, schedule_tup, index_needed = True, details_needed = False):
         schedule_str = ""
