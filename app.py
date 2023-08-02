@@ -9,10 +9,10 @@ from task import Task
 app = Flask(__name__)
 
 task_q = TaskQueue()
-timer = Timer()
+timer = Timer(task_q)
 
-task_q.insert(Task("21:27"))
-timer_thread = threading.Thread(target=timer.start, args=[task_q])
+task_q.insert(Task("22:17"))
+timer_thread = threading.Thread(target=timer.start, args=[])
 timer_thread.start()
 
 @app.route('/schedule', methods=['POST'])

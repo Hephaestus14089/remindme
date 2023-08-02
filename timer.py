@@ -4,12 +4,12 @@ from task import Task
 from task_queue import TaskQueue
 from dispatcher import Dispatcher
 
-# the number of seconds to sleep could be user specifiable
 # note: we do not need a Timer instance when queue is empty
 
 class Timer:
-    def __init__(self):
+    def __init__(self, task_queue):
         self.dispatcher = Dispatcher()
+        self.task_q = task_queue
 
     def get_curr_datetime():
         return { # convert str to int and then again to str
@@ -20,19 +20,23 @@ class Timer:
         # the final int to str conversion might not be needed
         # if the Task objects remind_time dictionary has int values
 
-    def start(self, q):
+    def start(self):
+        print("Timer started.")
+
         while True:
-            if q.isEmpty():
+            if self.task_q.isEmpty():
                 break
 
             curr = Timer.get_curr_datetime() # dictionary containing current datetime
-            remind_time = q.peek().remind_time
+            remind_time = self.task_q.peek().remind_time
 
             if curr['date'] == remind_time['date'] and curr['time'] == remind_time['time']:
-                self.dispatcher.dispatch_reminder(q.dequeue())
+                self.dispatcher.dispatch_reminder(self.task_q.dequeue())
 
-            time.sleep(10)
-        # the timer is theoritically dead as soon as the above while loop is exited
+            time.sleep(10) # the number of seconds to sleep could be user specifiable
+
+        # the timer stops as soon as the above while loop is exited
+        # and can be restarted again using start()
         print("Timer stopped.")
 
 if __name__ == "__main__":
