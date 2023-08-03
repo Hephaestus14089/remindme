@@ -98,7 +98,7 @@ class Task:
         return details_str
 
     def export_task_str(self, details_needed):
-        task_str = f"Remind time: {self.remind_time}\n"
+        task_str = f"Remind time: {self.remind_time['time']}, {self.remind_time['date']}\n"
         task_str += f"Title: {self.title}\n"
         if details_needed:
             details_str = self.export_details_str()
