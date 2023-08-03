@@ -49,7 +49,7 @@ class Task:
         else:
             self.details['end_time'] = new_val
 
-    def update_details_time(self, timeTuple):
+    def update_details_timings(self, timeTuple):
         st, et = timeTuple
         self.update_details_start_time(st)
         self.update_details_end_time(et)
