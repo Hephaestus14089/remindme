@@ -44,6 +44,11 @@ class TaskQueue:
             return None
         return self.queue[0]
 
+    def peek_at(self, index):
+        if index >= self.length:
+            return None
+        return self.queue[index]
+
 if __name__ == '__main__':
     q = TaskQueue()
 
@@ -52,7 +57,7 @@ if __name__ == '__main__':
     q.insert(Task("9:51 PM", "T 3"))
     q.insert(Task("9:54 PM", "T 4"))
 
-    task = q.dequeue()
+    task = q.peek_at(1)
     task.update_details_description("test description")
     task.update_details_end_time("3 PM")
     task.update_details_start_time("11 AM")
