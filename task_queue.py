@@ -2,11 +2,14 @@ from task import Task
 from dispatcher import Dispatcher
 
 class TaskQueue:
-    # every TaskQueue operation (except print) must
-    # return a message upon successful execution
     def __init__(self):
         self.queue = []
         self.length = 0
+
+    def print(self):
+        for task in self.queue:
+            task.print()
+            print()
 
     def isEmpty(self):
         return self.length == 0
@@ -61,4 +64,6 @@ if __name__ == '__main__':
     task.update_details_description("test description")
     task.update_details_end_time("3 PM")
     task.update_details_start_time("11 AM")
-    Dispatcher().dispatch_reminder(task)
+    # Dispatcher().dispatch_reminder(task)
+    print("\nQueue :-\n")
+    q.print()
