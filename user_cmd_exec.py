@@ -123,3 +123,6 @@ class Interpreter():
 
     def __init__(self, executor):
         self.executor = executor
+
+    def interpret(self, mssg):
+        print(mssg)
