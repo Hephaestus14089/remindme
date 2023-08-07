@@ -140,12 +140,16 @@ class TimeStr:
 
 
 class TimeDict:
-    now = list(map(lambda x: int(x), str(datetime.now().time()).split(':')[:2]))
-    today = list(map(lambda x: int(x), str(datetime.now().date()).split('-')))
     time_gap_minutes = 3 # minimum gap needed for the remind_time of the next Task object (in mins)
 
+    def get_curr_time():
+        return list(map(lambda x: int(x), str(datetime.now().time()).split(':')[:2]))
+
+    def get_curr_date():
+        return list(map(lambda x: int(x), str(datetime.now().date()).split('-')))
+
     def create_clock(time_dict):
-        now = TimeDict.now
+        now = TimeDict.get_curr_time()
         time_dict['clock'] = { 'h': now[0], 'm': now[1] + TimeDict.time_gap_minutes }
 
         if 'h' in time_dict:
@@ -177,7 +181,7 @@ class TimeDict:
         # incomplete function
 
     def check_time_validity(time_dict):
-        now = TimeDict.now
+        now = TimeDict.get_curr_time()
 
         # confirm that the time is in the future
         def check_time():
@@ -189,7 +193,7 @@ class TimeDict:
                     return False
             return True
 
-        if time_dict['date'] == '-'.join(list(map(lambda x: str(x), TimeDict.today))):
+        if time_dict['date'] == '-'.join(list(map(lambda x: str(x), TimeDict.get_curr_date()))):
             return check_time()
 
         return True
@@ -211,7 +215,7 @@ class TimeDict:
         time_dict['time'] = str(time_dict['clock']['h']) + ':' + str(time_dict['clock']['m'])
 
         # create 'date' attribute
-        date = TimeDict.today.copy()
+        date = TimeDict.get_curr_date()
         date[2] += time_dict['d'] if 'd' in time_dict else 0
         # format_date(date)
         time_dict['date'] = '-'.join(list(map(lambda x: str(x), date)))
