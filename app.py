@@ -26,7 +26,7 @@ def schedule():
     message.body("Hi")
     response.append(message)
 
-    print(request.form.get('Body'))
+    interpreter.interpret(request.form.get('Body'))
     return ""
 
 if __name__ == '__main__':

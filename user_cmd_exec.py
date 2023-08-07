@@ -13,9 +13,8 @@ class Executor:
     def display_error(self, err_msg="unknown error"):
         self.dispatcher.dispatch_message("Error Occurred!\n" + err_msg)
 
-    def create_task(self, remind_time_str, title="no title"):
-        new_task = Task(remind_time_str, title)
-        self.task_q.insert(new_task)
+    def insert_task(self, task):
+        self.task_q.insert(task)
 
     def remove_task(self, index):
         if self.task_q.remove(index) == None:
@@ -90,4 +89,25 @@ class Interpreter():
         self.executor = executor
 
     def interpret(self, mssg):
+        # create
+        # remind_time
+        # title
+        #
+        # description
+        # start_time
+        # end_time
+        mssg = mssg.splitlines()
         print(mssg)
+
+        if mssg[0].lower() == 'create':
+            task = Task(mssg[1])
+            if len(mssg) > 2:
+                task.update_title(mssg[2])
+            if len(mssg) > 4:
+                task.update_details_description(mssg[4])
+            if len(mssg) > 5:
+                task.update_details_start_time(mssg[5])
+            if len(mssg) > 6:
+                task.update_details_end_time(mssg[6])
+            self.executor.insert_task(task)
+            self.executor.display_task_queue() # debug command
