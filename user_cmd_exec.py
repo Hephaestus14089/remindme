@@ -93,6 +93,15 @@ class Interpreter():
         msg_len = len(msg)
         msg[0] = msg[0].lower()
 
+        if msg[0] == 'create':
+            pass
+        elif msg[0] == 'delete' or msg[0] == 'remove':
+            if (msg_len < 2):
+                # dispatch error
+                return
+            # wrap in try catch
+            self.executor.remove_task(int(msg[1]))
+
     def interpret_multi_line(self, msg):
         # create
         # remind_time
