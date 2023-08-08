@@ -90,6 +90,7 @@ class Interpreter():
 
     def interpret_single_line(self, msg):
         msg = msg.split()
+        msg_len = len(msg)
         msg[0] = msg[0].lower()
 
     def interpret_multi_line(self, msg):
@@ -119,7 +120,7 @@ class Interpreter():
     def interpret(self, msg):
         msg = msg.splitlines()
 
-        if msg_len == 1:
-            self.interpret_single_line(msg)
+        if len(msg) == 1:
+            self.interpret_single_line(msg[0])
         else:
             self.interpret_multi_line(msg)
