@@ -88,7 +88,11 @@ class Interpreter():
     def __init__(self, executor):
         self.executor = executor
 
-    def interpret(self, mssg):
+    def interpret_single_line(self, msg):
+        msg = msg.split()
+        msg[0] = msg[0].lower()
+
+    def interpret_multi_line(self, msg):
         # create
         # remind_time
         # title
@@ -96,18 +100,26 @@ class Interpreter():
         # description
         # start_time
         # end_time
-        mssg = mssg.splitlines()
-        print(mssg)
+        msg_len = len(msg)
+        msg[0] = msg[0].lower()
 
-        if mssg[0].lower() == 'create':
-            task = Task(mssg[1])
-            if len(mssg) > 2:
-                task.update_title(mssg[2])
-            if len(mssg) > 4:
-                task.update_details_description(mssg[4])
-            if len(mssg) > 5:
-                task.update_details_start_time(mssg[5])
-            if len(mssg) > 6:
-                task.update_details_end_time(mssg[6])
+        if msg[0] == 'create':
+            task = Task(msg[1])
+            if msg_len > 2:
+                task.update_title(msg[2])
+            if msg_len > 4:
+                task.update_details_description(msg[4])
+            if msg_len > 5:
+                task.update_details_start_time(msg[5])
+            if msg_len > 6:
+                task.update_details_end_time(msg[6])
             self.executor.insert_task(task)
-            self.executor.display_task_queue() # debug command
+            self.executor.display_task_queue(details_needed=True) # debug command
+
+    def interpret(self, msg):
+        msg = msg.splitlines()
+
+        if msg_len == 1:
+            self.interpret_single_line(msg)
+        else:
+            self.interpret_multi_line(msg)
