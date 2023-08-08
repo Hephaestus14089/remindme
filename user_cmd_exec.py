@@ -130,6 +130,7 @@ class Interpreter():
         # start_time
         # end_time
         msg_len = len(msg)
+        divider_index = 0 # empty string before description
 
         for i in range(msg_len):
             msg[i] = msg[i].strip()
@@ -137,15 +138,22 @@ class Interpreter():
         msg[0] = msg[0].lower()
 
         if msg[0] == 'create':
+            # wrap in try catch
             task = Task(msg[1])
+
             if msg_len > 2:
-                task.update_title(msg[2])
-            if msg_len > 4:
-                task.update_details_description(msg[4])
-            if msg_len > 5:
-                task.update_details_start_time(msg[5])
-            if msg_len > 6:
-                task.update_details_end_time(msg[6])
+                if msg[2] == '':
+                    divider_index = 2
+                else:
+                    task.update_title(msg[2])
+                    divider_index = 3
+            if msg_len > divider_index + 1:
+                task.update_details_description(msg[divider_index + 1])
+            if msg_len > divider_index + 2:
+                task.update_details_start_time(msg[divider_index + 2])
+            if msg_len > divider_index + 3:
+                task.update_details_end_time(msg[divider_index + 3])
+
             self.executor.insert_task(task)
             self.executor.display_task_queue(details_needed=True) # debug command
 
