@@ -133,6 +133,10 @@ class Interpreter():
         # start_time
         # end_time
         msg_len = len(msg)
+
+        for i in range(msg_len):
+            msg[i] = msg[i].strip()
+
         msg[0] = msg[0].lower()
 
         if msg[0] == 'create':
