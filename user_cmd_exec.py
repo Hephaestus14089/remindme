@@ -102,27 +102,24 @@ class Interpreter():
             # wrap in try catch
             self.executor.remove_task(int(msg[1]))
         elif msg[0] == 'list':
-            if msg_len == 1:
-                self.executor.display_task_queue()
-            else:
-                index_needed = True
-                details_needed = False
-                limit = 0;
+            index_needed = True
+            details_needed = False
+            limit = 0;
 
-                for item in msg[1:]:
-                    if item == 'index':
-                        index_needed = True
-                    elif item == 'noindex':
-                        index_needed = False
-                    elif item == 'details':
-                        details_needed = True
-                    elif item == 'nodetails':
-                        details_needed = False
-                    else:
-                        # wrap in try catch
-                        limit = int(item)
+            for item in msg[1:]:
+                if item == 'index':
+                    index_needed = True
+                elif item == 'noindex':
+                    index_needed = False
+                elif item == 'details':
+                    details_needed = True
+                elif item == 'nodetails':
+                    details_needed = False
+                else:
+                    # wrap in try catch
+                    limit = int(item)
 
-                self.executor.display_task_queue(index_needed, details_needed, limit)
+            self.executor.display_task_queue(index_needed, details_needed, limit)
 
     def interpret_multi_line(self, msg):
         # create
