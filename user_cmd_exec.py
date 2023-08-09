@@ -66,21 +66,6 @@ class Executor:
         else:
             self.display_error("the entered index in inaccessible!")
 
-if __name__ == "__main__":
-    tq = TaskQueue()
-    ex = Executor(tq)
-
-    ex.create_task("9:59 PM", "T 1")
-    ex.create_task("9:57 PM", "T 2")
-    ex.create_task("9:51 PM", "T 3")
-    ex.create_task("9:54 PM", "T 4")
-
-    ex.display_task_queue()
-    ex.remove_task(1)
-    ex.display_task_at(1)
-    ex.display_task_queue()
-    ex.display_task_at(10)
-
 
 class Interpreter():
     # interprets the messages sent by the user
@@ -105,7 +90,6 @@ class Interpreter():
             index_needed = True
             details_needed = False
             limit = 0;
-
             for item in msg[1:]:
                 if item == 'index':
                     index_needed = True
@@ -118,7 +102,6 @@ class Interpreter():
                 else:
                     # wrap in try catch
                     limit = int(item)
-
             self.executor.display_task_queue(index_needed, details_needed, limit)
 
     def interpret_multi_line(self, msg):
@@ -130,7 +113,7 @@ class Interpreter():
         # start_time
         # end_time
         msg_len = len(msg)
-        divider_index = 0 # empty string before description
+        divider_index = 2 # empty string before description
 
         for i in range(msg_len):
             msg[i] = msg[i].strip()
