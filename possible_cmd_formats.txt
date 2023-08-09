@@ -19,9 +19,9 @@
       "peek/show {TaskQueue index}"
 
     5. BASED on UPDATE/MODIFY instruction
-      "update/modify title {TaskQueue index} {new value}"
-      "update/modify remindtime {TaskQueue index} {new value}"
-      "update/modify description {TaskQueue index} {new value}"
-      "update/modify timing/timings {TaskQueue index} {new value}"
-      "update/modify starttime {TaskQueue index} {new value} {new value}" : start_time and end_time respectively
-      "update/modify endtime {TaskQueue index} {new value}"
+      "update/modify {TaskQueue index} title {new value}"
+      "update/modify {TaskQueue index} remindtime {new value}"
+      "update/modify {TaskQueue index} description {new value}"
+      "update/modify {TaskQueue index} timing/timings {new value}"
+      "update/modify {TaskQueue index} timing/timings {new value} {new value}" : start_time and end_time respectively
+      "update/modify {TaskQueue index} starttime/endtime {new value}"
