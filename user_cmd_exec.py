@@ -103,6 +103,14 @@ class Interpreter():
                     # wrap in try catch
                     limit = int(item)
             self.executor.display_task_queue(index_needed, details_needed, limit)
+        elif msg[0] == 'update' or msg[0] == 'modify':
+            if msg_len < 4:
+                self.executor.display_error("bad command format")
+            index = int(msg[1]) # wrap in try catch
+            if msg[2] == 'title':
+                self.executor.update_title(index, msg[3])
+            else:
+                self.executor.update_details(index, msg[2], msg[3])
 
     def interpret_multi_line(self, msg):
         # create
