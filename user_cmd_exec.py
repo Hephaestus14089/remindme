@@ -85,7 +85,7 @@ class Interpreter():
                 self.executor.display_error("Bad command")
                 return
             task = Task(msg[1]) # wrap in try catch
-            title = " ".join([ item for item in msg[2:] ])
+            title = ' '.join(msg[2:])
             task.update_title(title)
             self.executor.insert_task(task)
 
@@ -118,10 +118,11 @@ class Interpreter():
             if msg_len < 4:
                 self.executor.display_error("bad command format")
             index = int(msg[1]) # wrap in try catch
+            new_val = ' '.join(msg[3:])
             if msg[2] == 'title':
-                self.executor.update_title(index, msg[3])
+                self.executor.update_title(index, new_val)
             else:
-                self.executor.update_details(index, msg[2], msg[3])
+                self.executor.update_details(index, msg[2], new_val)
 
         elif msg[0] == 'peek':
             details_needed = False
