@@ -79,10 +79,19 @@ class Interpreter():
         msg[0] = msg[0].lower()
 
         if msg[0] == 'create':
-            pass
+            # create {remind_time} {title}
+            # create {remind time}
+            if msg_len < 2:
+                self.executor.display_error("Bad command")
+                return
+            task = Task(msg[1]) # wrap in try catch
+            title = " ".join([ item for item in msg[2:] ])
+            task.update_title(title)
+            self.executor.insert_task(task)
+
         elif msg[0] == 'delete' or msg[0] == 'remove':
-            if (msg_len < 2):
-                # dispatch error
+            if msg_len < 2:
+                self.executor.display_error("Bad command")
                 return
             # wrap in try catch
             self.executor.remove_task(int(msg[1]))
@@ -150,7 +159,6 @@ class Interpreter():
 
     def interpret(self, msg):
         msg = msg.splitlines()
-
         if len(msg) == 1:
             self.interpret_single_line(msg[0])
         else:
