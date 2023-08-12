@@ -95,6 +95,7 @@ class Interpreter():
                 return
             # wrap in try catch
             self.executor.remove_task(int(msg[1]))
+
         elif msg[0] == 'list':
             index_needed = True
             details_needed = False
@@ -112,6 +113,7 @@ class Interpreter():
                     # wrap in try catch
                     limit = int(item)
             self.executor.display_task_queue(index_needed, details_needed, limit)
+
         elif msg[0] == 'update' or msg[0] == 'modify':
             if msg_len < 4:
                 self.executor.display_error("bad command format")
@@ -120,6 +122,20 @@ class Interpreter():
                 self.executor.update_title(index, msg[3])
             else:
                 self.executor.update_details(index, msg[2], msg[3])
+
+        elif msg[0] == 'peek':
+            details_needed = False
+            index = 0
+            for item in msg[1:]:
+                item = item.lower()
+                if item == 'details':
+                    details_needed = True
+                elif item == 'nodetails':
+                    details_needed = False
+                else:
+                    # wrap in try catch
+                    index = int(item)
+            self.executor.display_task_at(index, details_needed)
 
     def interpret_multi_line(self, msg):
         # create
