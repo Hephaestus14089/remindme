@@ -1,0 +1,9 @@
+FIXES:
+    1. Minimum time gap check is broken. The minimum time gap gets added when only the time difference is specified.
+    2. Task detals display format. Specifically the line breaks between tasks.
+
+ADDITIONS:
+    1. Try catch wrapping were possible errors might occur and dispatch error message to user when catched.
+    2. Testing for specific individual components
+    3. Add storage of schedule when the application is stopped and retrieval of the stored schedule when it is started.
+    4. Testing without whatsapp. A script that automates dummy requests to api disguised as Twilio requests.
