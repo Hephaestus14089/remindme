@@ -150,7 +150,7 @@ class TimeDict:
 
     def create_clock(time_dict):
         now = TimeDict.get_curr_time()
-        time_dict['clock'] = { 'h': now[0], 'm': now[1] + TimeDict.time_gap_minutes }
+        time_dict['clock'] = { 'h': now[0], 'm': now[1] }
 
         if 'h' in time_dict:
             time_dict['clock']['h'] += time_dict['h']

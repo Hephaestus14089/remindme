@@ -1,6 +1,5 @@
 FIXES:
-    1. Minimum time gap check is broken. The minimum time gap gets added when only the time difference is specified.
-    2. Task detals display format. Specifically the line breaks between tasks.
+    1. Task detals display format. Specifically the line breaks between tasks.
 
 ADDITIONS:
     1. Try catch wrapping were possible errors might occur and dispatch error message to user when catched.
