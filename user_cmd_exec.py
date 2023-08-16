@@ -138,6 +138,29 @@ class Interpreter():
                     index = int(item)
             self.executor.display_task_at(index, details_needed)
 
+        elif msg[0] == 'show':
+            details_needed = False
+            index_needed = True
+            limit = 0
+            for item in msg[1:]:
+                item = item.lower()
+                if item == 'details':
+                    details_needed = True
+                elif item == 'nodetails':
+                    details_needed = False
+                elif item == 'index':
+                    index_needed = True
+                elif item == 'noindex':
+                    index_needed = False
+                else:
+                    # wrap in try catch
+                    limit = int(item)
+            try:
+                index = int(msg[1])
+                self.executor.display_task_at(index, details_needed)
+            except:
+                self.executor.display_task_queue(index_needed, details_needed, limit)
+
     def interpret_multi_line(self, msg):
         # create
         # remind_time
