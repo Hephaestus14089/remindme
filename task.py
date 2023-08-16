@@ -88,13 +88,14 @@ class Task:
     def export_details_str(self):
         details_str = ""
         if 'description' in self.details:
-            details_str += self.details['description']
+            details_str += self.details['description'] + "\n"
         if 'start_time' in self.details or 'end_time' in self.details:
-            details_str += "\n\nEvent timings :-"
+            details_str += "Event timings :-"
             if 'start_time' in self.details:
                 details_str += "\nstart: " + self.details['start_time']
             if 'end_time' in self.details:
                 details_str += "\nend: " + self.details['end_time']
+            details_str += "\n"
         return details_str
 
     def export_task_str(self, details_needed):

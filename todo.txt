@@ -1,6 +1,3 @@
-FIXES:
-    1. Task detals display format. Specifically the line breaks between tasks.
-
 ADDITIONS:
     1. Try catch wrapping were possible errors might occur and dispatch error message to user when catched.
     2. Testing for specific individual components
