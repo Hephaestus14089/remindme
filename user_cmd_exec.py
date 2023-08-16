@@ -161,6 +161,9 @@ class Interpreter():
             except:
                 self.executor.display_task_queue(index_needed, details_needed, limit)
 
+        else:
+            self.executor.display_error("unknown command")
+
     def interpret_multi_line(self, msg):
         # create
         # remind_time
