@@ -45,10 +45,9 @@ So first let's take a look at what's happening in the **app.py** file, and then 
 
 ### app.py
 
+This is the *entry point* of the flask server application. As mentioned earlier this is where the **multi-threading** is done, i.e. the thread seperation originates.
+
 ### The dataflow
-
-This is where the **multi-threading** is done, i.e. the thread seperation originates.
-
 
 ## So, how and where do utilities fit in?
 
