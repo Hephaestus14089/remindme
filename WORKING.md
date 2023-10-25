@@ -12,6 +12,9 @@ Modularity can be helpful in various ways. This application contains a number of
 
 ### Components
 
+As defined earlier, each component has a specific task to tackle. Components in this project exist in the form of *classes*.  
+Below is a list of all the components which is followed by the detailed description of each in the same sequence as in the list.
+
 * Task
 * TaskQueue
 * Executor
