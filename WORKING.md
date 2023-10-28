@@ -56,6 +56,12 @@ As mentioned earlier, reminder time is a string value that must be provided by a
 
 #### TaskQueue
 
+The **Task** objects are lined up according to their **remind_time** in a **TaskQueue** object. So TaskQueue is basically a data structure.  
+This application necessites only a single TaskQueue object to exist at a time.
+
+TaskQueue class consists of methods to handle operations such as insertion, removal, dequeue, information display, 'peek' at a certain index.  
+At insertion, the new Task object's remind_time is compared to those already in the TaskQueue object and inserted at the appropriate index. This is how the order is maintained.
+
 #### Executor
 
 #### Interpreter
