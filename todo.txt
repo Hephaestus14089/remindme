@@ -1,7 +1,8 @@
 ADDITIONS:
-    1. Try catch wrapping were possible errors might occur and dispatch error message to user when catched.
-    2. Multi-line user commands
-    3. Test scripts for specific individual components
-    4. Add storage of schedule when the application is stopped and retrieval of the stored schedule when it is started.
-    5. Testing without whatsapp. A script that automates dummy requests to api disguised as Twilio requests.
-    6. Add minimum time gap check between consecutive task objects in TaskQueue (during insertion).
+    1. Generating 'help' message
+    2. Test scripts for specific individual components (unit testing)
+    3. Try catch wrapping were possible errors might occur and dispatch error message to user when catched.
+    4. Multi-line user commands
+    5. Add storage of schedule when the application is stopped and retrieval of the stored schedule when it is started.
+    6. Testing without whatsapp. A script that automates dummy requests to api disguised as Twilio requests.
+    7. Add minimum time gap check between consecutive task objects in TaskQueue (during insertion).
