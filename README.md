@@ -84,7 +84,48 @@ The **TWILIO_PHONE_NUMBER** should refer to the TWILIO sandbox phone number and 
 
 # Usage
 
-User instructions.
+This section deals with using the application from a user's perpective. It contains the commands (or instructions) that the user may provide the application to get the desired action performed.  
+It is important to maintain the format of the commands carefully as by making it difficult for the application to understand or interpret a command, a user's life will certainly does not become easier.  
+
+Command formats can be divided into
+
+- Single line
+- Multi line
+
+Under each format, commands are divided by the action they perform (i.e. Create / Read / Update / Delete).  
+
+## Single line commands
+
+#### Create
+
+Format
+
+```
+create <time> <title>
+```
+
+Example
+
+```
+create 15m hello world
+```
+
+#### Read
+
+#### Update
+
+#### Delete
+
+## Multi line commands
+
+#### Create
+
+#### Read
+
+#### Update
+
+#### Delete
+
 
 # Working
 
