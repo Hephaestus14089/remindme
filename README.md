@@ -36,24 +36,23 @@ Apart from the above mentioned requirements this application needs certain PIP m
 
 # Installation
 
-
 Clone the repository and move into the newly created directory
 
-```
+```sh
 git clone https://github.com/hephaestus14089/remindme
 cd remindme
 ```
 
 Create a virtual environment and activate it
 
-```
+```sh
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
 Install the modules inside the virtual environment
 
-```
+```sh
 pip install -r requirements.txt
 ```
 
