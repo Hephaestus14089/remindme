@@ -16,7 +16,7 @@ Set, unset and reset reminders via Whatsapp. Pass instructions in the format of 
 A flask server that receives instructions, schedules reminder messages and dispatches them accordingly.  
 Enables user to perform CRUD (Create Read Update Delete) operations. Operations are performed according to user instruction received through Whatsapp in the format of text messages. Essentially, information exchange between the user and the application happens in the format of text messages via Whatsapp.  
 
-_It uses ***TWILIO*** to implement user interaction through Whatsapp._
+*It uses* ***TWILIO*** *to implement user interaction through Whatsapp.*
 
 # Requirements
 
