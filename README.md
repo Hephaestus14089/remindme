@@ -84,48 +84,70 @@ The **TWILIO_PHONE_NUMBER** should refer to the TWILIO sandbox phone number and 
 
 # Usage
 
-This section deals with using the application from a user's perpective. It contains the commands (or instructions) that the user may provide the application to get the desired action performed.  
-It is important to maintain the format of the commands carefully as by making it difficult for the application to understand or interpret a command, a user's life will certainly does not become easier.  
+This section deals with using the application from a user's perpective. It contains the command phrases (or instructions) that the user may provide the application to get the desired action performed.  
+The necessary information passes along with the command is together termed as a 'command phrase'  
+It is important to maintain the format of the command phrases carefully as by making it difficult for the application to understand or interpret a command phrase, a user's life certainly does not become easier.  
 
-Command formats can be divided into
+*Note that this section only consists of commands and command phrases needed by an user to accomplish the basic operations. The available commands exceed that of what is covered here and can be leveraged by an user for a more flexible usage and an enhanced experience.*  
 
-- Single line
-- Multi line
+Command formats are catagorized on the basis of the CRUD operation they are atributed to.
 
-Under each format, commands are divided by the action they perform (i.e. Create / Read / Update / Delete).  
+- [Create](#create)
+- [Read](#read)
+- [Update](#update)
+- [Delete](#delete)
 
-## Single line commands
+**A command phrase typically starts with the action to perform (i.e. the 'command').**  
 
-#### Create
+### Create
 
-Format
+The format provided below needs to be maintained to accomplish the creation of a **Task**.
 
 ```
 create <time> <title>
 ```
 
-Example
+The phrase starts with the command (create), which is followed by the time of reminded (i.e. the time at which the reminder must be displatched to the user). And at the end (optionally) the title may be provided.  
+The title may contain spaces. Anything after the space following the remind time will be considered as part of the title.  
+When a title is not explicitly provided, it of course defaults to "no title".  
+
+**Remind time formats**
+
+- Specifying in hours and minutes (or hours or minutes).  
+The specified amount is the amount of time from the time of creation of the **Task** object.
+- Specifying the clock time in 12 hours or 24 hours format.  
+In case of using the 12 hours format, the clock time must be followed by 'AM' or 'PM' appropriately without any spaces in between them.
+
+**Examples**
+
+The following example will create a **Task** object with the title "hello world", set to be dispatched at fifteen minutes from its creation.
 
 ```
 create 15m hello world
 ```
 
-#### Read
+The following examples will create a **Task** object with the title "no title".  
+The one created by the former of them will be set to be dispatched at one hour from its creation while the one by the latter at one hour and forty minutes from its creation.
 
-#### Update
+```
+create 1h
+create 1h40m
+```
 
-#### Delete
+Both of the follwing examples will create a **Task** object with the title "test", set to be dispatched at 13:15 (or 01:15 PM) **on the same day**.
 
-## Multi line commands
+```
+create 1:15pm test
+create 13:15 test
+```
 
-#### Create
+*Note that if the specified remind time is actually in the past, the application throws an error.*
 
-#### Read
+### Read
 
-#### Update
+### Update
 
-#### Delete
-
+### Delete
 
 # Working
 
