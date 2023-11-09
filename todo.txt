@@ -6,3 +6,4 @@ ADDITIONS:
     5. Add storage of schedule when the application is stopped and retrieval of the stored schedule when it is started.
     6. Testing without whatsapp. A script that automates dummy requests to api disguised as Twilio requests.
     7. Add minimum time gap check between consecutive task objects in TaskQueue (during insertion).
+    8. Try binary search to find position of Task object at insertion.
