@@ -144,6 +144,47 @@ create 13:15 test
 
 ### Read
 
+The **list** command can be used to construct command phrases with appropriate information to execute a variety of **READ** operations.  
+
+*Note that an* ***index*** *is always attached to a* ***Task*** *object residing in the* ***TaskQueue***.  
+
+Using the following command phrase, a list of all the Task objects (reminders) currently present in the TaskQueue can be listed.
+
+```
+list
+```
+
+The above command phrase is identical to the following command phrase.
+
+```
+list index
+```
+
+The above command phrases list out the Task objects along with the indexes of each Task object.  
+
+To get a list of all the Task objects in the TaskQueue without their indexes use the following command phrase.
+
+```
+list noindex
+```
+
+To limit the number of Task objects to display use the following command phrase.
+
+```
+list <n>
+```
+
+'n' being the number of **nearest** Task objects in the TaskQueue.  
+
+_The Task objects are kept sorted according to their remind time in the TaskQueue._
+
+Both of the following command phrases display the first Task object without index.
+
+```
+list noindex 1
+list 1 noindex
+```
+
 ### Update
 
 ### Delete
