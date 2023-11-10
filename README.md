@@ -1,5 +1,7 @@
 # remindme
 
+[![StandWithPalestine](https://raw.githubusercontent.com/TheBSD/StandWithPalestine/main/badges/StandWithPalestine.svg)](https://github.com/TheBSD/StandWithPalestine/blob/main/docs/README.md)
+
 Set, unset and reset reminders via Whatsapp. Pass instructions in the format of text messages.
 
 # Table Of Contents
