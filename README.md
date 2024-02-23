@@ -41,7 +41,7 @@ Apart from the above mentioned requirements this application needs certain PIP m
 Clone the repository and move into the newly created directory
 
 ```sh
-git clone https://github.com/hephaestus14089/remindme
+git clone https://github.com/hephaestus14089/remindme --depth 1
 cd remindme
 ```
 
