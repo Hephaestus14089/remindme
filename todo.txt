@@ -7,3 +7,4 @@ ADDITIONS:
     6. Testing without whatsapp. A script that automates dummy requests to api disguised as Twilio requests.
     7. Add minimum time gap check between consecutive task objects in TaskQueue (during insertion).
     8. Try binary search to find position of Task object at insertion.
+    9. Avoid race-condition by using 'lock' at critical sections.
