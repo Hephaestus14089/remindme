@@ -1,5 +1,5 @@
 from task import Task
-from dispatcher import Dispatcher
+
 
 class TaskQueue:
     def __init__(self):
@@ -51,6 +51,7 @@ class TaskQueue:
         if index >= self.length:
             return None
         return self.queue[index]
+
 
 if __name__ == '__main__':
     q = TaskQueue()

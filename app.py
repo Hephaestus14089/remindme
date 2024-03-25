@@ -15,6 +15,7 @@ interpreter = Interpreter(executor)
 timer_thread = threading.Thread(target=timer.start, args=[])
 timer_thread.start()
 
+
 @app.route('/schedule', methods=['POST'])
 def schedule():
     response = MessagingResponse()
@@ -25,6 +26,7 @@ def schedule():
 
     interpreter.interpret(request.form.get('Body'))
     return ""
+
 
 if __name__ == '__main__':
     app.run()

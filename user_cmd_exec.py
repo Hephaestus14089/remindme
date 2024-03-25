@@ -1,6 +1,6 @@
 from task import Task
-from task_queue import TaskQueue
 from dispatcher import Dispatcher
+
 
 class Executor:
     # Executor contains functions that execute commands
@@ -17,28 +17,34 @@ class Executor:
         self.task_q.insert(task)
 
     def remove_task(self, index):
-        if self.task_q.remove(index) == None:
+        if self.task_q.remove(index) is None:
             self.display_error("the entered index in inaccessible!")
 
     def update_remind_time(self, index, new_remind_time_str):
         removed_task = self.remove_task(index)
-        if removed_task != None:
+        if removed_task is None:
             self.create_task(Task(new_remind_time_str, removed_task.title))
         else:
             self.display_error("the entered index in inaccessible!")
 
     def update_title(self, index, new_val):
         task = self.task_q.peek_at(index)
-        if task != None:
+        if task is None:
             task.update_title(new_val)
         else:
             self.display_error("the entered index in inaccessible!")
 
     # update task details
     def update_details(self, index, attr, new_val):
-        if attr in ['description', 'start_time', 'end_time', 'timing', 'timings']:
+        if attr in [
+            'description',
+            'start_time',
+            'end_time',
+            'timing',
+            'timings'
+        ]:
             task = self.task_q.peek_at(index)
-            if task != None:
+            if task is None:
                 if attr == 'timing' or attr == 'timings':
                     # new_val must be a Tuple : (start_time, end_time)
                     task.update_details_timings(new_val)
@@ -53,16 +59,34 @@ class Executor:
         else:
             self.display_error("invalid attribute specified!")
 
-    def display_task_queue(self, index_needed=True, details_needed=False, limit=0):
+    def display_task_queue(
+        self,
+        index_needed=True,
+        details_needed=False,
+        limit=0
+    ):
         tasks_tuple = self.task_q.export_schedule_tuple()
+
         if limit != 0:
             tasks_tuple = tuple([tasks_tuple[i] for i in range(limit)])
-        self.dispatcher.dispatch_schedule(tasks_tuple, index_needed, details_needed)
 
-    def display_task_at(self, index, details_needed=False):
+        self.dispatcher.dispatch_schedule(
+            tasks_tuple,
+            index_needed,
+            details_needed
+        )
+
+    def display_task_at(
+            self,
+            index,
+            details_needed=False
+    ):
         task = self.task_q.peek_at(index)
-        if task != None:
-            self.dispatcher.dispatch_message(task.export_task_str(details_needed))
+
+        if task is None:
+            self.dispatcher.dispatch_message(
+                task.export_task_str(details_needed)
+            )
         else:
             self.display_error("the entered index in inaccessible!")
 
@@ -84,7 +108,7 @@ class Interpreter():
             if msg_len < 2:
                 self.executor.display_error("Bad command")
                 return
-            task = Task(msg[1]) # wrap in try catch
+            task = Task(msg[1])  # wrap in try catch
             title = ' '.join(msg[2:])
             task.update_title(title)
             self.executor.insert_task(task)
@@ -99,7 +123,7 @@ class Interpreter():
         elif msg[0] == 'list':
             index_needed = True
             details_needed = False
-            limit = 0;
+            limit = 0
             for item in msg[1:]:
                 if item == 'index':
                     index_needed = True
@@ -112,17 +136,28 @@ class Interpreter():
                 else:
                     # wrap in try catch
                     limit = int(item)
-            self.executor.display_task_queue(index_needed, details_needed, limit)
+            self.executor.display_task_queue(
+                index_needed,
+                details_needed,
+                limit
+            )
 
         elif msg[0] == 'update' or msg[0] == 'modify':
             if msg_len < 4:
                 self.executor.display_error("bad command format")
-            index = int(msg[1]) # wrap in try catch
+            index = int(msg[1])  # wrap in try catch
             new_val = ' '.join(msg[3:])
             if msg[2] == 'title':
-                self.executor.update_title(index, new_val)
+                self.executor.update_title(
+                    index,
+                    new_val
+                )
             else:
-                self.executor.update_details(index, msg[2], new_val)
+                self.executor.update_details(
+                    index,
+                    msg[2],
+                    new_val
+                )
 
         elif msg[0] == 'peek':
             details_needed = False
@@ -136,7 +171,10 @@ class Interpreter():
                 else:
                     # wrap in try catch
                     index = int(item)
-            self.executor.display_task_at(index, details_needed)
+            self.executor.display_task_at(
+                index,
+                details_needed
+            )
 
         elif msg[0] == 'show':
             details_needed = False
@@ -157,9 +195,16 @@ class Interpreter():
                     limit = int(item)
             try:
                 index = int(msg[1])
-                self.executor.display_task_at(index, details_needed)
-            except:
-                self.executor.display_task_queue(index_needed, details_needed, limit)
+                self.executor.display_task_at(
+                    index,
+                    details_needed
+                )
+            except ValueError:
+                self.executor.display_task_queue(
+                    index_needed,
+                    details_needed,
+                    limit
+                )
 
         else:
             self.executor.display_error("unknown command")
@@ -173,7 +218,7 @@ class Interpreter():
         # start_time
         # end_time
         msg_len = len(msg)
-        divider_index = 2 # empty string before description
+        divider_index = 2  # empty string before description
 
         for i in range(msg_len):
             msg[i] = msg[i].strip()
@@ -198,7 +243,7 @@ class Interpreter():
                 task.update_details_end_time(msg[divider_index + 3])
 
             self.executor.insert_task(task)
-            self.executor.display_task_queue(details_needed=True) # debug command
+            self.executor.display_task_queue(details_needed=True)  # debug command
 
     def interpret(self, msg):
         msg = msg.splitlines()

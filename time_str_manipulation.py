@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 class TimeStr:
     def __init__(self):
         # time_dict can have the following attributes:-
@@ -22,7 +23,9 @@ class TimeStr:
         def check_if_twelve_hr():
             if attr.upper() in ['AM', 'PM']:
                 if 'twelve_hr' in time_dict:
-                    raise ValueError("invalid time format: repeating AM/PM specification")
+                    raise ValueError(
+                        "invalid time format: repeating AM/PM specification"
+                    )
 
                 time_dict['twelve_hr'] = attr.upper()
                 return True
@@ -32,25 +35,35 @@ class TimeStr:
         def check_if_clock():
             if ':' in attr:
                 if 'clock' in time_dict:
-                    raise ValueError("invalid time format: repeating 'h:m' time specification")
+                    raise ValueError(
+                        "invalid time format: repeating 'h:m' time specification"
+                    )
 
                 clock_lst = attr.split(':')
 
                 if len(clock_lst) != 2:
-                    raise ValueError("invalid time format: bad 'h:m' time specification")
+                    raise ValueError(
+                        "invalid time format: bad 'h:m' time specification"
+                    )
 
                 try:
                     clock_lst[0] = int(clock_lst[0])
                     clock_lst[1] = int(clock_lst[1])
-                except:
-                    raise ValueError("invalid time format: bad 'h:m' time specification")
+                except ValueError:
+                    raise ValueError(
+                        "invalid time format: bad 'h:m' time specification"
+                    )
 
                 if clock_lst[0] < 0 or clock_lst[1] < 0:
-                    raise ValueError("invalid time format: bad 'h:m' time specification")
+                    raise ValueError(
+                        "invalid time format: bad 'h:m' time specification"
+                    )
                 elif clock_lst[0] > 23 or clock_lst[1] > 59:
-                    raise ValueError("invalid time format: bad 'h:m' time specification")
+                    raise ValueError(
+                        "invalid time format: bad 'h:m' time specification"
+                    )
 
-                time_dict['clock'] = { 'h': clock_lst[0], 'm': clock_lst[1] }
+                time_dict['clock'] = {'h': clock_lst[0], 'm': clock_lst[1]}
                 return True
 
             return False
@@ -63,11 +76,15 @@ class TimeStr:
 
                 try:
                     n = int(n)
-                except:
-                    raise ValueError("invalid time format: bad D, H or M specification")
+                except ValueError:
+                    raise ValueError(
+                        "invalid time format: bad D, H or M specification"
+                    )
 
                 if d_h_m in time_dict:
-                    raise ValueError("invalid time format: repeating argument")
+                    raise ValueError(
+                        "invalid time format: repeating argument"
+                    )
 
                 time_dict[d_h_m] = n
                 return True
@@ -77,26 +94,35 @@ class TimeStr:
         def check_if_single_integer():
             # a single integer will be treated as minutes
             if 'm' in time_dict:
-                raise ValueError("invalid time format: possible repeatative argument")
+                raise ValueError(
+                    "invalid time format: possible repeatative argument"
+                )
 
             try:
                 time_dict['m'] = int(attr)
                 return True
-            except:
-                raise ValueError("invalid time format")
+            except ValueError:
+                raise ValueError(
+                    "invalid time format"
+                )
 
             return False
 
         # the order for checking the attributes in the time string
-        check_if_twelve_hr() or check_if_clock() or check_if_dhm() or check_if_single_integer()
+        check_if_twelve_hr() or \
+            check_if_clock() or \
+            check_if_dhm() or \
+            check_if_single_integer()
 
     def validate_time_dict(self):
         time_dict = self.time_dict
-        bad_cases  = []
+        bad_cases = []
 
         if 'clock' in time_dict:
             bad_cases.append('h' in time_dict or 'm' in time_dict)
-            bad_cases.append('twelve_hr' in time_dict and (time_dict['clock']['h'] > 12 or time_dict['clock']['h'] < 1))
+            bad_cases.append('twelve_hr' in time_dict and (
+                time_dict['clock']['h'] > 12 or time_dict['clock']['h'] < 1
+            ))
         else:
             bad_cases.append('twelve_hr' in time_dict)
 
@@ -104,7 +130,9 @@ class TimeStr:
         for bad_case in bad_cases:
             good = good and not bad_case
             if not good:
-                raise ValueError("invalid time format: bad combination of arguments")
+                raise ValueError(
+                    "invalid time format: bad combination of arguments"
+                )
 
     def validate_time_str(time_str):
         # format of remind_time :-
@@ -127,7 +155,7 @@ class TimeStr:
         if len(time_str_lst) > 3:
             raise ValueError("invalid time format")
 
-        print("time_str_lst: ", time_str_lst) # debug output
+        print("time_str_lst: ", time_str_lst)  # debug output
 
         # loop through time_str_lst and create time_dict
         for attr in time_str_lst:
@@ -140,21 +168,29 @@ class TimeStr:
 
 
 class TimeDict:
-    time_gap_minutes = 3 # minimum gap needed for the remind_time of the next Task object (in mins)
+    # minimum gap needed for the remind_time of the next Task object (in mins)
+    time_gap_minutes = 3
 
     def get_curr_time():
-        return list(map(lambda x: int(x), str(datetime.now().time()).split(':')[:2]))
+        return list(map(
+            lambda x: int(x),
+            str(datetime.now().time()).split(':')[:2]
+        ))
 
     def get_curr_date():
-        return list(map(lambda x: int(x), str(datetime.now().date()).split('-')))
+        return list(map(
+            lambda x: int(x),
+            str(datetime.now().date()).split('-')
+        ))
 
     def create_clock(time_dict):
         now = TimeDict.get_curr_time()
-        time_dict['clock'] = { 'h': now[0], 'm': now[1] }
+        time_dict['clock'] = {'h': now[0], 'm': now[1]}
 
         if 'h' in time_dict:
             time_dict['clock']['h'] += time_dict['h']
-            time_dict['d'] = (time_dict['d'] if 'd' in time_dict else 0) + (time_dict['clock']['h'] // 24)
+            time_dict['d'] = (time_dict['d'] if 'd' in time_dict else 0) + \
+                (time_dict['clock']['h'] // 24)
             time_dict['clock']['h'] %= 24
         if 'm' in time_dict:
             time_dict['clock']['m'] += time_dict['m']
@@ -175,7 +211,7 @@ class TimeDict:
         y, m, d = date
         days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
-        if (y % 4 == 0): # leap year (gregorian calander)
+        if (y % 4 == 0):  # leap year (gregorian calander)
             if not (y % 100 == 0 and not y % 400 == 0):
                 days_in_month[1] += 1
         # incomplete function
@@ -193,7 +229,12 @@ class TimeDict:
                     return False
             return True
 
-        if time_dict['date'] == '-'.join(list(map(lambda x: str(x), TimeDict.get_curr_date()))):
+        if time_dict['date'] == '-'.join(
+            list(map(
+                lambda x: str(x),
+                TimeDict.get_curr_date()
+            ))
+        ):
             return check_time()
 
         return True
@@ -206,13 +247,14 @@ class TimeDict:
         # the final time_dict will replace remind_time
 
         if 'twelve_hr' in time_dict:
-            TimeDict.convert_clock(time_dict) # convert clock to 24hr format
+            TimeDict.convert_clock(time_dict)  # convert clock to 24hr format
 
         if 'clock' not in time_dict:
             TimeDict.create_clock(time_dict)
 
         # create 'time' attribute
-        time_dict['time'] = str(time_dict['clock']['h']) + ':' + str(time_dict['clock']['m'])
+        time_dict['time'] = str(time_dict['clock']['h']) + ':' + \
+            str(time_dict['clock']['m'])
 
         # create 'date' attribute
         date = TimeDict.get_curr_date()

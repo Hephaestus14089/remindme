@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-from task import *
+from task import Task
+
 
 def test_task():
     t1 = Task("2:30")
@@ -19,6 +20,7 @@ def test_task():
     t1.update_remind_time("")
     t1.update_details_time(("", ""))
     t1.print()
+
 
 def test_time_str_validation():
     rt_lst = ["5:15", "6:00 PM", "2d 4h 3m", "45", "2d", "2d 4:00 PM", "1h 30m 3D", "5:03 AM 2d", "2d 4m"]

@@ -1,17 +1,20 @@
-from datetime import datetime
 from time_str_manipulation import TimeStr, TimeDict
+
 
 class Task:
     # anatomy of a Task object :-
     # remind_time = { time, date }
     # title = ""
-    #`details = {
+    # details = {
     #   description: ""
     #   start_time: ""
     #   end_time: ""
     # }`
+
     def __init__(self, remind_time_str, title="no title"):
-        self.remind_time = TimeDict.convert_time_dict(TimeStr.validate_time_str(remind_time_str))
+        self.remind_time = TimeDict.convert_time_dict(
+            TimeStr.validate_time_str(remind_time_str)
+        )
         self.title = title
         self.details = {}
 
@@ -26,7 +29,7 @@ class Task:
         if new_val == "":
             try:
                 del self.details['description']
-            except:
+            except KeyError:
                 return
         else:
             self.details['description'] = new_val
@@ -35,7 +38,7 @@ class Task:
         if new_val == "":
             try:
                 del self.details['start_time']
-            except:
+            except KeyError:
                 return
         else:
             self.details['start_time'] = new_val
@@ -44,7 +47,7 @@ class Task:
         if new_val == "":
             try:
                 del self.details['end_time']
-            except:
+            except KeyError:
                 return
         else:
             self.details['end_time'] = new_val
@@ -67,8 +70,18 @@ class Task:
         remind_time_that = task_other.remind_time
 
         def compare_date():
-            date_this = list(map(lambda x: int(x), remind_time_this['date'].split('-')))
-            date_that = list(map(lambda x: int(x), remind_time_that['date'].split('-')))
+            date_this = list(
+                map(
+                    lambda x: int(x),
+                    remind_time_this['date'].split('-')
+                )
+            )
+            date_that = list(
+                map(
+                    lambda x: int(x),
+                    remind_time_that['date'].split('-')
+                )
+            )
             y_diff, m_diff, d_diff = [date_this[i] - date_that[i] for i in range(3)]
             if y_diff != 0:
                 return y_diff
@@ -77,8 +90,18 @@ class Task:
             return d_diff
 
         def compare_time():
-            time_this = list(map(lambda x: int(x), remind_time_this['time'].split(':')))
-            time_that = list(map(lambda x: int(x), remind_time_that['time'].split(':')))
+            time_this = list(
+                map(
+                    lambda x: int(x),
+                    remind_time_this['time'].split(':')
+                )
+            )
+            time_that = list(
+                map(
+                    lambda x: int(x),
+                    remind_time_that['time'].split(':')
+                )
+            )
             h_diff, m_diff = [time_this[i] - time_that[i] for i in range(2)]
             return h_diff if h_diff != 0 else m_diff
 
@@ -106,6 +129,7 @@ class Task:
             if details_str != "":
                 task_str += "\n" + details_str
         return task_str
+
 
 if __name__ == "__main__":
     t1 = Task("1h 2m")
