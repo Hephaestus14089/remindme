@@ -4,7 +4,7 @@ from task import Task
 from task_queue import TaskQueue
 from dispatcher import Dispatcher
 
-# note: we do not need a Timer instance when queue is empty
+# note: we do not really need a Timer instance when queue is empty
 
 class Timer:
     def __init__(self, task_queue):
@@ -24,19 +24,21 @@ class Timer:
         print("Timer started.")
 
         while True:
-            if self.task_q.isEmpty():
-                break
+            # the timer stops as soon as the above while loop is exited
+            # and can be restarted again using start()
+            # if self.task_q.isEmpty():
+            #     break
 
-            curr = Timer.get_curr_datetime() # dictionary containing current datetime
-            remind_time = self.task_q.peek().remind_time
+            if not self.task_q.isEmpty():
+                curr = Timer.get_curr_datetime() # dictionary containing current datetime
+                remind_time = self.task_q.peek().remind_time
 
-            if curr['date'] == remind_time['date'] and curr['time'] == remind_time['time']:
-                self.dispatcher.dispatch_reminder(self.task_q.dequeue())
+                if curr['date'] == remind_time['date'] and curr['time'] == remind_time['time']:
+                    self.dispatcher.dispatch_reminder(self.task_q.dequeue())
 
             time.sleep(10) # the number of seconds to sleep could be user specifiable
 
-        # the timer stops as soon as the above while loop is exited
-        # and can be restarted again using start()
+
         print("Timer stopped.")
 
 if __name__ == "__main__":
