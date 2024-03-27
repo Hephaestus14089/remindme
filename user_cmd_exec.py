@@ -21,15 +21,15 @@ class Executor:
             self.display_error("the entered index in inaccessible!")
 
     def update_remind_time(self, index, new_remind_time_str):
-        removed_task = self.remove_task(index)
-        if removed_task is None:
-            self.create_task(Task(new_remind_time_str, removed_task.title))
+        removed_task = self.task_q.remove(index)
+        if removed_task is not None:
+            self.insert_task(Task(new_remind_time_str, removed_task.title))
         else:
             self.display_error("the entered index in inaccessible!")
 
     def update_title(self, index, new_val):
         task = self.task_q.peek_at(index)
-        if task is None:
+        if task is not None:
             task.update_title(new_val)
         else:
             self.display_error("the entered index in inaccessible!")
@@ -149,6 +149,11 @@ class Interpreter():
             new_val = ' '.join(msg[3:])
             if msg[2] == 'title':
                 self.executor.update_title(
+                    index,
+                    new_val
+                )
+            elif msg[2] == 'remindtime' or msg[2] == 'remind':
+                self.executor.update_remind_time(
                     index,
                     new_val
                 )
